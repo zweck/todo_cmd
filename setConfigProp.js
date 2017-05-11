@@ -1,4 +1,11 @@
+const path = require('path');
+const fs = require('fs');
+const appRootDir = require('app-root-dir').get();
+const config = require('./config');
+
 const setConfigProp = function(object){
-  let config = require(configPath);
-  config = Object.assign({}, config, object);
+  const configPath = path.join(appRootDir, 'config.json');
+  fs.writeFileSync(configPath, JSON.stringify(Object.assign({}, config, object)));
 }
+
+module.exports = setConfigProp;

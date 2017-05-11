@@ -4,6 +4,7 @@ const path = require('path');
 const tilde = require('tilde-expansion');
 const appRootDir = require('app-root-dir').get();
 const setConfigProp = require('./setConfigProp');
+const newTodoMonth = require('./newTodoMonth');
 
 const init = function({ dir }){
   tilde(dir, (expandedDir) => {
@@ -13,15 +14,12 @@ const init = function({ dir }){
     const todoRoot = path.join(expandedDir, 'todo');
 
     if (!fs.existsSync( todoRoot )) fs.mkdirSync( todoRoot );
-    if (fs.existsSync( configPath )) return loadConfig( configPath );
+    if (fs.existsSync( configPath )) console.log(chalk.green('Using existing config'));
     if (!fs.existsSync( configPath )) writeConfig( configPath, todoRoot );
     setConfigProp({ todoRoot });
+    newTodoMonth();
   });
 };
-
-const loadConfig =  function(configPath){
-  console.log(chalk.green('Using existing config'));
-}
 
 const writeConfig = function(configPath){
   console.log(chalk.green('Writing config'));
