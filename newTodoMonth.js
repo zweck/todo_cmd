@@ -18,7 +18,7 @@ const newTodoMonth = function(){
 }
 
 const createMonthFolder = function( currentMonthFolder ){
-  console.log(chalk.green(`Creating month ${month}`));
+  console.log(chalk.green(`Creating month ${month}, day ${year}_${month}_${day}.md`));
   mkdirp.sync( currentMonthFolder );
   const newTodoMd = path.join(currentMonthFolder, `${year}_${month}_${day}.md`);
   if (fs.existsSync( newTodoMd )) return console.log(chalk.red('Todo for today exists'));

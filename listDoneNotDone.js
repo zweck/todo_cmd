@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 const glob = require('glob');
+const chalk = require('chalk');
 
 const getAllTodoFiles = function(){
   let files = glob.sync( `${config.todoRoot}/**/*.md` );
@@ -15,20 +16,22 @@ const getAllTodoFiles = function(){
 
 const listDone = function(){
   let todos = getAllTodoFiles();
-  let todoCount = 0;
-  todos.forEach( todo => {
-    todoCount = todoCount + (todo.match(/[[ ]]/g) || []).length;
-  });
-  console.log(todoCount)
+  let done = todos.reduce( (doneList, todo) => {
+    if(todo.match(/(\[x])(.*)/gm)) doneList = doneList.concat(todo.match(/(\[x])(.*)/gm));
+    return doneList;
+  }, []);
+
+  done.forEach( done => console.log(chalk.red(done)) );
 }
 
 const listNotDone = function(){
   let todos = getAllTodoFiles();
-  let todoCount = 0;
-  todos.forEach( todo => {
-    todoCount = todoCount + (todo.match(/[[x]]/g) || []).length;
-  });
-  console.log(todoCount)
+  let done = todos.reduce( (doneList, todo) => {
+    if(todo.match(/(\[ ])(.*)/gm)) doneList = doneList.concat(todo.match(/(\[ ])(.*)/gm));
+    return doneList;
+  }, []);
+
+  done.forEach( done => console.log(chalk.green(done)) );
 }
 
 module.exports = { listDone, listNotDone }
