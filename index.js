@@ -32,8 +32,7 @@ const argv = require('yargs')
   .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
   .command('add', `[options] -item | -i, create a new todo in today's file`, (yargs) => {
     return yargs.option('item', {
-      alias: 'i',
-      default: 'foo'
+      alias: 'i'
     })
   }, newTodo)
   .demandCommand()
