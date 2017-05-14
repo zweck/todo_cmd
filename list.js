@@ -4,16 +4,8 @@ const config = require('./config');
 const glob = require('glob');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-
-const getAllTodoFiles = function(){
-  let files = glob.sync( `${config.todoRoot}/**/*.md` );
-  let todos = files.reduce( (todos, file) => {
-    let todo = fs.readFileSync(file, 'utf8');
-    todos.push(todo);
-    return todos;
-  }, [] );
-  return todos;
-}
+const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
+const getAllTodoFiles = require('./getAllTodoFiles');
 
 const toggleTodos = function(newList){
   let files = glob.sync( `${config.todoRoot}/**/*.md` );
@@ -30,18 +22,7 @@ const toggleTodos = function(newList){
 }
 
 const list = function(){
-  let todos = getAllTodoFiles();
-  let done = todos.reduce( (doneList, todo) => {
-    if(todo.match(/(\[x])(.*)/gm)) doneList = doneList.concat(todo.match(/(\[x])(.*)/gm));
-    return doneList;
-  }, []);
-
-  let notDone = todos.reduce( (doneList, todo) => {
-    if(todo.match(/(\[ ])(.*)/gm)) doneList = doneList.concat(todo.match(/(\[ ])(.*)/gm));
-    return doneList;
-  }, []);
-
-  let allTodo = notDone.concat(done);
+  let allTodo = getAllTodosFromFileArray( getAllTodoFiles() );
   let choices = allTodo.map( choice => {
     if(choice.match(/(\[x])/g)) return { name: choice.replace(/(\[x])/g, ''), checked: true }
     return { name: choice.replace(/(\[\s])/g, ''), checked: false }
