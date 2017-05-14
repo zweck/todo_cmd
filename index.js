@@ -5,7 +5,7 @@ const newTodoMonth = require('./newTodoMonth');
 const newTodo = require('./newTodo');
 
 const argv = require('yargs')
-  .command('init', 'initialize a new todo workbook', (yargs) => {
+  .command('init', '[options] -d | -dir, initialize a new todo workbook', (yargs) => {
     return yargs.option('dir', {
       alias: 'd',
       default: './'
@@ -13,7 +13,7 @@ const argv = require('yargs')
   }, init)
   .command('list', `list all the todo's`, () => {}, list)
   .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
-  .command('new', `create a new todo in today's file`, (yargs) => {
+  .command('add', `create a new todo in today's file`, (yargs) => {
     return yargs.option('item', {
       alias: 'i',
       default: 'foo'
