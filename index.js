@@ -12,7 +12,7 @@ const argv = require('yargs')
   .command('init', 'initialize a new todo workbook', {
     'dir': {
       alias: 'd',
-      default: './'
+      default: '~'
     },
     'with-git': {
       default: false

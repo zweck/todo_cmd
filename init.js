@@ -14,8 +14,7 @@ const init = function({ dir, withGit }){
     const todoRoot = path.join(expandedDir, 'todo');
 
     if (!fs.existsSync( todoRoot )) fs.mkdirSync( todoRoot );
-    if (fs.existsSync( configPath )) console.log(chalk.green('Using existing config'));
-    if (!fs.existsSync( configPath )) writeConfig( configPath, todoRoot );
+    writeConfig( configPath, todoRoot );
     setConfigProp({ todoRoot });
     newTodoMonth();
   });
