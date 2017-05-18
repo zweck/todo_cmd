@@ -17,19 +17,20 @@ const toggleTodos = function(newList){
       if (replaceWithLine) return todoLine.match(/(\[x])/g) ? todoLine.replace(/(\[x])/g, '[ ]') : todoLine.replace(/(\[\s])/g, '[x]');
       return todoLine;
     });
-    fs.writeFileSync(file, todo.join("\r\n"));
+    fs.writeFileSync(file, todo.join('\r\n'));
   });
 }
 
-const list = function(){
+const list = function({ raw }){
   let allTodo = getAllTodosFromFileArray( getAllTodoFiles() );
+  if(raw) return console.log(allTodo.join('\r\n'));
+
   let choices = allTodo.map( choice => {
     if(choice.match(/(\[x])/g)) return { name: choice.replace(/(\[x])/g, ''), checked: true }
     return { name: choice.replace(/(\[\s])/g, ''), checked: false }
   });
 
   choices.unshift(new inquirer.Separator('--- TODOs ---'));
-
   inquirer.prompt([
     {
       type: 'checkbox',

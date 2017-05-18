@@ -9,16 +9,19 @@ const setConfigProp = require('./setConfigProp');
 const config = require('./config');
 
 const argv = require('yargs')
-  .command('init', '[options] -dir | -d, initialize a new todo workbook', (yargs) => {
-    return yargs.option('dir', {
+  .command('init', 'initialize a new todo workbook', {
+    'dir': {
       alias: 'd',
       default: './'
-    })
+    },
+    'with-git': {
+      default: false
+    }
   }, init)
   .command('get-folder', `get the folder for your todos`, () => {}, () => {
     console.log(chalk.blue(config.todoRoot));
   })
-  .command('set-folder', `[options] -dir | -d, set the folder for your todos`, (yargs) => {
+  .command('set-folder', `set the folder for your todos`, (yargs) => {
     return yargs.option('dir', {
       alias: 'd',
       default: './'
@@ -28,13 +31,24 @@ const argv = require('yargs')
       setConfigProp({ todoRoot: expandedDir });
     });
   })
-  .command('list', `list all the todo's`, () => {}, list)
+  .command('list', `list all the todo's`, (yargs) => {
+  	return yargs.option('raw',{
+  	  alias: 'r',
+  	  default: false 		
+  	})
+  }, list)
   .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
-  .command('add', `[options] -item | -i, create a new todo in today's file`, (yargs) => {
+  .command('add', `create a new todo in today's file`, (yargs) => {
     return yargs.option('item', {
       alias: 'i'
     })
   }, newTodo)
+  .group('item', 'add:')
+  .group('dir', 'set-folder:')
+  .group(['dir', 'with-git'], 'init:')
+  .describe('dir', '-d, directory')
+  .describe('item', '-i, the string for your todo')
+  .describe('with-git', 'init the todo with git')
   .demandCommand()
   .help()
   .argv;
