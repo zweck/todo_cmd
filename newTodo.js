@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const tilde = require('tilde-expansion');
 const mkdirp = require('mkdirp');
+const shell = require('shelljs');
 const config = require('./loadConfig');
 const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
 
@@ -35,6 +36,11 @@ const addNewTodo = function(args){
     let newFile = todoFileAsArray.join("\r\n");
     fs.writeFileSync(todayTodo, newFile);
     console.log(chalk.green(`Added new todo to ${todayTodo}`));
+    if (config.withGit) {
+      shell.cd(expandedDir);
+      shell.exec(`git add ${todayTodo}`);
+      shell.exec(`git commit -m "Added now todo to ${todayTodo}"`);
+    }
   });
 };
 

@@ -3,6 +3,7 @@ const path = require('path');
 const config = require('./loadConfig');
 const glob = require('glob');
 const chalk = require('chalk');
+const shell = require('shelljs');
 const inquirer = require('inquirer');
 const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
 const getAllTodoFiles = require('./getAllTodoFiles');
@@ -18,7 +19,15 @@ const toggleTodos = function(newList){
       return todoLine;
     });
     fs.writeFileSync(file, todo.join('\r\n'));
+    if (config.withGit) {
+      shell.cd(config.todoRoot);
+      shell.exec(`git add ${file}`);
+    }
   });
+  if (config.withGit) {
+    shell.cd(config.todoRoot);
+    shell.exec(`git commit -m "Updated todos"`);
+  }
 }
 
 const list = function({ raw }){
