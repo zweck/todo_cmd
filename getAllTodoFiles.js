@@ -1,6 +1,6 @@
 const fs = require('fs');
 const glob = require('glob');
-const config = require('./config');
+const config = require('./loadConfig');
 
 const getAllTodoFiles = function(){
   let files = glob.sync( `${config.todoRoot}/**/*.md` );

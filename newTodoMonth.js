@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const config = require('./config');
+const config = require('./loadConfig');
 const chalk = require('chalk');
 const mkdirp = require('mkdirp');
 
@@ -8,8 +8,8 @@ const month = `0${new Date().getMonth()+1}`.slice(-2);
 const year = `${new Date().getFullYear()}`;
 const day = `0${new Date().getDate()+1}`.slice(-2);
 
-const newTodoMonth = function(){
-  const todoRoot = config.todoRoot;
+const newTodoMonth = function(todoRoot){
+  todoRoot = todoRoot || config.todoRoot;
   const currentYearFolder = path.join(todoRoot, year);
   const currentMonthFolder = path.join(currentYearFolder, month);
 

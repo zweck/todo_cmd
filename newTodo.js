@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const tilde = require('tilde-expansion');
 const mkdirp = require('mkdirp');
-const config = require('./config');
+const config = require('./loadConfig');
 const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
 
 const month = `0${new Date().getMonth()+1}`.slice(-2);

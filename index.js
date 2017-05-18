@@ -6,7 +6,7 @@ const list = require('./list');
 const newTodoMonth = require('./newTodoMonth');
 const newTodo = require('./newTodo');
 const setConfigProp = require('./setConfigProp');
-const config = require('./config');
+const config = require('./loadConfig');
 
 const argv = require('yargs')
   .command('init', 'initialize a new todo workbook', {

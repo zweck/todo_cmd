@@ -16,7 +16,7 @@ const init = function({ dir, withGit }){
     if (!fs.existsSync( todoRoot )) fs.mkdirSync( todoRoot );
     writeConfig( configPath, todoRoot );
     setConfigProp({ todoRoot });
-    newTodoMonth();
+    newTodoMonth( todoRoot );
   });
 };
 

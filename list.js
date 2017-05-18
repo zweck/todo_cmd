@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('./config');
+const config = require('./loadConfig');
 const glob = require('glob');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
