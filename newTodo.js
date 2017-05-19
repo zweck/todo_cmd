@@ -12,7 +12,7 @@ const year = `${new Date().getFullYear()}`;
 const day = `0${new Date().getDate()+1}`.slice(-2);
 
 const addNewTodo = function(args){
-  let item = args.item || args._[1];
+  let item = args._[1];
   let dir = config.todoRoot;
   tilde(dir, (expandedDir) => {
     const todoRoot = config.todoRoot;
@@ -30,7 +30,7 @@ const addNewTodo = function(args){
       todoFileAsArray.splice( 
         todoFileAsArray.indexOf( todoFileAsArray.find( line => line.match(/(\[x])(.*)|(\[\s])(.*)/) )), 
         0, 
-        `[ ] ${item}`
+        `- [ ] ${item}`
       );
     }
     let newFile = todoFileAsArray.join("\r\n");

@@ -18,16 +18,12 @@ const argv = require('yargs')
       default: false
     }
   }, init)
-  .command('add', `create a new todo in today's file`, (yargs) => {
-    return yargs.option('item', {
-      alias: 'i'
-    })
-  }, newTodo)
+  .command('add', `add todo in today's file`, () => {}, newTodo)
   .command('list', `list all the todo's`, (yargs) => {
-  	return yargs.option('raw',{
-  	  alias: 'r',
-  	  default: false 		
-  	})
+    return yargs.option('raw',{
+      alias: 'r',
+      default: false 
+    })
   }, list)
   .command('get-folder', `get the folder for your todos`, () => {}, () => {
     console.log(chalk.blue(config.todoRoot));
@@ -43,7 +39,6 @@ const argv = require('yargs')
     });
   })
   .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
-  .group('item', 'add:')
   .group('dir', 'set-folder:')
   .group(['dir', 'with-git'], 'init:')
   .describe('dir', '-d, directory')

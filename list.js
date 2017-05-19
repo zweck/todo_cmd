@@ -7,6 +7,7 @@ const shell = require('shelljs');
 const inquirer = require('inquirer');
 const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
 const getAllTodoFiles = require('./getAllTodoFiles');
+const { done, notDone } = require('./matchDoneNotDone');
 
 const toggleTodos = function(newList){
   let files = glob.sync( `${config.todoRoot}/**/*.md` );
@@ -15,7 +16,7 @@ const toggleTodos = function(newList){
     todo = todo.split(/\r?\n/);
     todo = todo.map( todoLine => {
       let replaceWithLine = Object.keys(newList).find( toReplace => (todoLine.indexOf(toReplace) > -1 && newList[toReplace] !== toReplace) );
-      if (replaceWithLine) return todoLine.match(/(\[x])/g) ? todoLine.replace(/(\[x])/g, '[ ]') : todoLine.replace(/(\[\s])/g, '[x]');
+      if (replaceWithLine) return todoLine.match(done) ? todoLine.replace(done, '[ ]') : todoLine.replace(notDone, '[x]');
       return todoLine;
     });
     fs.writeFileSync(file, todo.join('\r\n'));
@@ -35,8 +36,8 @@ const list = function({ raw }){
   if(raw) return console.log(allTodo.join('\r\n'));
 
   let choices = allTodo.map( choice => {
-    if(choice.match(/(\[x])/g)) return { name: choice.replace(/(\[x])/g, ''), checked: true }
-    return { name: choice.replace(/(\[\s])/g, ''), checked: false }
+    if(choice.match(done)) return { name: choice.replace(done, ''), checked: true }
+    return { name: choice.replace(notDone, ''), checked: false }
   });
 
   choices.unshift(new inquirer.Separator('--- TODOs ---'));
@@ -55,7 +56,7 @@ const list = function({ raw }){
         let ratio = (todo.indexOf(answer.trim())+answer.trim().length) / todo.length;
         return ratio > 0.75 && ratio < 1.1;
       });
-      all[todo] = toggle ? todo.match(/(\[x])/g) ? todo : todo.replace(/(\[\s])/g, '[x]') : todo.replace(/(\[x])/g, '[ ]');
+      all[todo] = toggle ? todo.match(done) ? todo : todo.replace(notDone, '[x]') : todo.replace(done, '[ ]');
       return all;
     }, {});
     return toggleTodos(newList);
