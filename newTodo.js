@@ -14,11 +14,11 @@ const day = `0${new Date().getDate()+1}`.slice(-2);
 const addNewTodo = function(args){
   let item = args._[1];
   let dir = config.todoRoot;
+  let template = config.template;
   tilde(dir, (expandedDir) => {
     const todoRoot = config.todoRoot;
-    const currentYearFolder = path.join(todoRoot, year);
-    const currentMonthFolder = path.join(currentYearFolder, month);
-    const todayTodo = path.join(currentMonthFolder, `${year}_${month}_${day}.md`);
+    const templatePath = `${template.replace(/year/g, year).replace(/month/g, month).replace(/day/g, day)}.md`;
+    const todayTodo = path.join(todoRoot, templatePath);
 
     if (!fs.existsSync( currentMonthFolder )) mkdirp.sync( currentMonthFolder );
     if (!fs.existsSync( todayTodo )) fs.writeFileSync(todayTodo, `#### Todos for ${year}_${month}_${day}`);
