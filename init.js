@@ -12,7 +12,9 @@ const init = function({ dir, withGit=false }){
     if (!fs.existsSync(expandedDir)) return console.log(chalk.red('Directory for workbook doesnt exist'));
     console.log(chalk.green(`Initializing new todo workbook in ${dir}`));
     const configPath = path.join(appRootDir, 'config.json');
-    const todoRoot = path.join(expandedDir, 'todo');
+
+    let todoRoot = expandedDir;
+    if(path.parse(expandedDir).name !== 'todo') todoRoot = path.join(expandedDir, 'todo');
 
     if (!fs.existsSync( todoRoot )) fs.mkdirSync( todoRoot );
     writeConfig( configPath, todoRoot );
@@ -20,7 +22,7 @@ const init = function({ dir, withGit=false }){
     newTodoMonth( todoRoot );
     if (withGit) {
       console.log(chalk.blue('Initialising with git'));
-      shell.cd(expandedDir);
+      shell.cd(todoRoot);
       shell.exec('git init');
       shell.exec('git add --all');
       shell.exec('git commit -m "Initial Commit"');
