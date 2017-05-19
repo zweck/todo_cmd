@@ -32,9 +32,9 @@ const argv = require('yargs')
     return yargs.option('dir', {
       alias: 'd'
     })
-  }, ({dir}) => {
-    dir = dir || args._[1];
-    tilde(dir, (expandedDir) => { 
+  }, (args) => {
+    dir = args.dir || args._[1];
+    tilde(dir, expandedDir => { 
       setConfigProp({ todoRoot: expandedDir });
     });
   })
