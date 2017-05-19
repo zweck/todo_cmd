@@ -30,10 +30,10 @@ const argv = require('yargs')
   })
   .command('set-folder', `set the folder for your todos`, (yargs) => {
     return yargs.option('dir', {
-      alias: 'd',
-      default: './'
+      alias: 'd'
     })
   }, ({dir}) => {
+    dir = dir || args._[1];
     tilde(dir, (expandedDir) => { 
       setConfigProp({ todoRoot: expandedDir });
     });
