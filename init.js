@@ -7,7 +7,7 @@ const appRootDir = require('app-root-dir').get();
 const setConfigProp = require('./setConfigProp');
 const newTodoMonth = require('./newTodoMonth');
 
-const init = function({ dir, withGit=false }){
+const init = function({ dir, withGit=false, template }){
   tilde(dir, (expandedDir) => {
     if (!fs.existsSync(expandedDir)) return console.log(chalk.red('Directory for workbook doesnt exist'));
     console.log(chalk.green(`Initializing new todo workbook in ${dir}`));
@@ -18,7 +18,7 @@ const init = function({ dir, withGit=false }){
 
     if (!fs.existsSync( todoRoot )) fs.mkdirSync( todoRoot );
     writeConfig( configPath, todoRoot );
-    setConfigProp({ todoRoot, withGit });
+    setConfigProp({ todoRoot, withGit, template });
     newTodoMonth( todoRoot );
     if (withGit) {
       console.log(chalk.blue('Initialising with git'));
