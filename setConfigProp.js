@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const appRootDir = require('app-root-dir').get();
+const appRootDir = __filename.split('/').slice(0, __filename.split('/').length - 1).join("/");
 const chalk = require('chalk');
 const config = require('./loadConfig');
 

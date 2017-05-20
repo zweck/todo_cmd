@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const tilde = require('tilde-expansion');
 const shell = require('shelljs');
-const appRootDir = require('app-root-dir').get();
+const appRootDir = __filename.split('/').slice(0, __filename.split('/').length - 1).join("/");
 const setConfigProp = require('./setConfigProp');
 const newTodoMonth = require('./newTodoMonth');
 
