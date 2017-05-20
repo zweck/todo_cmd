@@ -21,14 +21,14 @@ const argv = require('yargs')
       default: 'year_month_day'
     },
   }, init)
-  .command('add', `add todo in today's file`, () => {}, newTodo)
+  .command('add', `add todo in today's file`, {}, newTodo)
   .command('list', `list all the todo's`, (yargs) => {
     return yargs.option('raw',{
       alias: 'r',
       default: false 
     })
   }, list)
-  .command('get-folder', `get the folder for your todos`, () => {}, () => {
+  .command('get-folder', `get the folder for your todos`, {}, () => {
     console.log(chalk.blue(config.todoRoot));
   })
   .command('set-folder', `set the folder for your todos`, (yargs) => {
@@ -41,13 +41,13 @@ const argv = require('yargs')
       setConfigProp({ todoRoot: expandedDir });
     });
   })
-  .command('get-template', `get the template for your todos`, () => {}, () => {
+  .command('get-template', `get the template for your todos`, {}, () => {
     console.log(chalk.blue(config.template));
   })
-  .command('set-template', `set the template for your todos using year, month and day`, (yargs) => {}, (args) => {
+  .command('set-template', `set the template for your todos using year, month and day`, {}, (args) => {
     setConfigProp({ template: args._[1] });
   })
-  .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
+  .command('new-day', `create a new .md for today`, {}, newTodoMonth)
   .group('dir', 'set-folder:')
   .group(['dir', 'with-git'], 'init:')
   .describe('dir', '-d, directory')

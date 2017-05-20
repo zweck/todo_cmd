@@ -6,10 +6,8 @@ const mkdirp = require('mkdirp');
 const shell = require('shelljs');
 const config = require('./loadConfig');
 const getAllTodosFromFileArray = require('./getAllTodosFromFileArray');
-
-const month = `0${new Date().getMonth()+1}`.slice(-2);
-const year = `${new Date().getFullYear()}`;
-const day = `0${new Date().getDate()+1}`.slice(-2);
+const getTodoPath = require('./getTodoPath').getTodoPath;
+const today = require('./getTodoPath').today;
 
 const addNewTodo = function(args){
   let item = args._[1];
@@ -17,11 +15,11 @@ const addNewTodo = function(args){
   let template = config.template;
   tilde(dir, (expandedDir) => {
     const todoRoot = config.todoRoot;
-    const templatePath = `${template.replace(/year/g, year).replace(/month/g, month).replace(/day/g, day)}.md`;
+    const templatePath = getTodoPath();
     const todayTodo = path.join(todoRoot, templatePath);
 
     if (!fs.existsSync( currentMonthFolder )) mkdirp.sync( currentMonthFolder );
-    if (!fs.existsSync( todayTodo )) fs.writeFileSync(todayTodo, `#### Todos for ${year}_${month}_${day}`);
+    if (!fs.existsSync( todayTodo )) fs.writeFileSync(todayTodo, `#### Todos for ${today.year}_${today.month}_${today.day}`);
     const todayTodoFile = fs.readFileSync(todayTodo, 'utf-8');
     const todosFromFile = getAllTodosFromFileArray([todayTodoFile]);
     let todoFileAsArray = todayTodoFile.split(/\r?\n/);
