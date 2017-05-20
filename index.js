@@ -16,7 +16,10 @@ const argv = require('yargs')
     },
     'with-git': {
       default: false
-    }
+    },
+    'template': {
+      default: 'year_month_day'
+    },
   }, init)
   .command('add', `add todo in today's file`, () => {}, newTodo)
   .command('list', `list all the todo's`, (yargs) => {
@@ -37,6 +40,12 @@ const argv = require('yargs')
     tilde(dir, expandedDir => { 
       setConfigProp({ todoRoot: expandedDir });
     });
+  })
+  .command('get-template', `get the template for your todos`, () => {}, () => {
+    console.log(chalk.blue(config.template));
+  })
+  .command('set-template', `set the template for your todos using year, month and day`, (yargs) => {}, (args) => {
+    setConfigProp({ template: args._[1] });
   })
   .command('new-day', `create a new .md for today`, () => {}, newTodoMonth)
   .group('dir', 'set-folder:')
