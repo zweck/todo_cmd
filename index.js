@@ -53,6 +53,7 @@ const argv = require('yargs')
   .describe('dir', '-d, directory')
   .describe('item', '-i, the string for your todo')
   .describe('with-git', 'init the todo with git')
+  .describe('template', 'set the folder and file name format')
   .demandCommand()
   .help()
   .argv;
