@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 const tilde = require('tilde-expansion');
 const chalk = require('chalk');
-const init = require('./init');
-const list = require('./list');
-const newTodoMonth = require('./newTodoMonth');
-const newTodo = require('./newTodo');
-const setConfigProp = require('./setConfigProp');
-const config = require('./loadConfig');
+const init = require('./lib/init');
+const list = require('./lib/list');
+const newTodoMonth = require('./lib/newTodoMonth');
+const newTodo = require('./lib/newTodo');
+const setConfigProp = require('./lib/setConfigProp');
+const config = require('./lib/loadConfig');
 
 const argv = require('yargs')
   .command('init', 'initialize a new todo workbook', {
