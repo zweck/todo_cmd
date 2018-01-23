@@ -22,12 +22,14 @@ const argv = require('yargs')
     },
   }, init)
   .command('add', `add todo in today's file`, {}, newTodo)
-  .command('list', `list all the todo's`, (yargs) => {
-    return yargs.option('raw',{
-      alias: 'r',
-      default: false 
-    })
-  }, list)
+  .command('list', `list all the todo's`, {}, list)
+  .option('raw',{
+     alias: 'r',
+     default: false
+   })
+  .option('filter',{
+     alias: 'f'
+   })
   .command('get-folder', `get the folder for your todos`, {}, () => {
     console.log(chalk.blue(config.todoRoot));
   })
@@ -37,7 +39,7 @@ const argv = require('yargs')
     })
   }, (args) => {
     dir = args.dir || args._[1];
-    tilde(dir, expandedDir => { 
+    tilde(dir, expandedDir => {
       setConfigProp({ todoRoot: expandedDir });
     });
   })
@@ -49,7 +51,9 @@ const argv = require('yargs')
   })
   .command('new-day', `create a new .md for today`, {}, newTodoMonth)
   .group('dir', 'set-folder:')
+  .group(['raw', 'filter'], 'list')
   .group(['dir', 'with-git'], 'init:')
+  .describe('filter', 'filter the todo list')
   .describe('dir', '-d, directory')
   .describe('item', '-i, the string for your todo')
   .describe('with-git', 'init the todo with git')
